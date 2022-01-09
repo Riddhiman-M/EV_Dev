@@ -7,5 +7,5 @@ Vehicles are detected from the video feed and classified into Vehicle Types (Car
 
 The known vehicle densities at various co-ordinates are then processed using <b>K-Means Clustering</b>. Using the User Input of number of clusters to be formed (i.e., number of Charging Stations to be set up), we find the optimum K-Means Cluster centers using Weighted Means in K-Means Clustering.<br><br>
 
-<h3>K-Means Clustering Technique</h3><br>
+<h3>K-Means Clustering Technique</h3>
 <img src="https://static.javatpoint.com/tutorial/machine-learning/images/k-means-clustering-algorithm-in-machine-learning.png" alt="K-Means">
