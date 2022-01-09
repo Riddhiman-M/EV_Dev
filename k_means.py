@@ -11,11 +11,10 @@ x = store["X"].to_numpy(dtype='float')
 y = store["Y"].to_numpy(dtype='float')
 n = len(x)
 
-
 wt = store["Wt"].to_numpy(dtype='float')
 
 # Creating a scatter plot for the input data
-plt.scatter(x,y)
+plt.scatter(x, y)
 plt.title("Data-points")
 plt.xlabel("X-coordinates")
 plt.ylabel("Y-coordinates")
@@ -23,13 +22,10 @@ plt.show()
 
 coord = store.iloc[:, 1:3]
 
-
-num = 3
+# Taking User input for number of clusters to be formed
+num = int(input())
 kmeans = KMeans(num)
 # In the above lines num is the number of Charging Stations we want to set up
-# It has been initialized here implicitly for simplicity
-# In the actual product it will be user defined i.e.,
-# User will get a prompt to enter the number of Charging Stations first
 
 # sample_weight has been initialized to use 'Weighted' K-Means Clustering
 kmeans.fit(coord, sample_weight=wt)
@@ -45,6 +41,6 @@ plt.scatter(centers[:, 0], centers[:, 1], c='black', s=100, alpha=0.5)
 
 # Marking co-ordinates of centers on graph
 for i, j in centers:
-   plt.text(i, j+0.5, '({}, {})'.format(round(i,2), round(j,2)))
+   plt.text(i, j+0.5, '({}, {})'.format(round(i, 2), round(j, 2)))
 
 plt.show()
