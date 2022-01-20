@@ -1,8 +1,11 @@
+import csv
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 from sklearn.metrics import pairwise_distances_argmin
+from sklearn import metrics
+from scipy.spatial.distance import cdist
 
 # Path where the excel file containing the data is stored
 store = pd.read_excel(r'C:\Users\Riddhiman Moulick\IIT Kharagpur\pythonProject\Electric_Vehicle\Data.xlsx')
@@ -22,6 +25,24 @@ plt.show()
 
 coord = store.iloc[:, 1:3]
 
+distortions = []
+inertia = []
+
+for k in range(1, 10):
+   kmeans = KMeans(k)
+   kmeans.fit(coord, sample_weight=wt)
+
+   distortions.append(sum(np.min(cdist(coord, kmeans.cluster_centers_,
+                                       'euclidean'), axis=1)) / coord.shape[0])
+   inertia.append(kmeans.inertia_)
+
+
+plt.plot(range(1, 10), distortions, 'bx-')
+plt.xlabel('Values of K')
+plt.ylabel('Distortion')
+plt.title('The Elbow Method using Distortion')
+plt.show()
+
 # Taking User input for number of clusters to be formed
 num = int(input())
 kmeans = KMeans(num)
@@ -38,6 +59,18 @@ plt.xlabel('X-coord')
 plt.ylabel('Y-coord')
 centers = kmeans.cluster_centers_
 plt.scatter(centers[:, 0], centers[:, 1], c='black', s=100, alpha=0.5)
+plt.text(3.6, 28, "Number of data points = " + str(len(x)), fontsize=10,
+         bbox=dict(boxstyle="Square", alpha=0.05))
+
+with open("Points_Obtained.csv", 'w') as file:
+    cwriter = csv.writer(file)
+    fields = ['X', 'Y']
+    cwriter.writerow(fields)
+    for i in range(len(centers[:, 0])):
+        arr = [round(centers[i, 0], 2), round(centers[i, 1], 2)]
+        cwriter.writerow(arr)
+
+file.close()
 
 # Marking co-ordinates of centers on graph
 for i, j in centers:
