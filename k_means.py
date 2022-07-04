@@ -4,11 +4,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 from sklearn.metrics import pairwise_distances_argmin
+from sklearn.metrics import davies_bouldin_score
 from sklearn import metrics
 from scipy.spatial.distance import cdist
 
 # Path where the excel file containing the data is stored
-store = pd.read_excel(r'C:\Users\Riddhiman Moulick\IIT Kharagpur\pythonProject\Electric_Vehicle\Data.xlsx')
+store = pd.read_excel(r'C:/Users/Riddhiman Moulick/IIT_Kharagpur/pythonProject/Electric_Vehicle/Data.xlsx')
 
 x = store["X"].to_numpy(dtype='float')
 y = store["Y"].to_numpy(dtype='float')
@@ -27,19 +28,24 @@ coord = store.iloc[:, 1:3]
 
 distortions = []
 inertia = []
+db_index = []
 
-for k in range(1, 10):
+for k in range(2, 14):
    kmeans = KMeans(k)
    kmeans.fit(coord, sample_weight=wt)
+   cluster_data = kmeans.fit_predict(coord, sample_weight=wt)
 
+   index = davies_bouldin_score(coord, cluster_data)
+   print(index, sep='\n')
+   db_index.append(index)
    distortions.append(sum(np.min(cdist(coord, kmeans.cluster_centers_,
                                        'euclidean'), axis=1)) / coord.shape[0])
    inertia.append(kmeans.inertia_)
 
 
-plt.plot(range(1, 10), distortions, 'bx-')
+plt.plot(range(2, 14), db_index, 'bx-')
 plt.xlabel('Values of K')
-plt.ylabel('Distortion')
+plt.ylabel('DB index')
 plt.title('The Elbow Method using Distortion')
 plt.show()
 
@@ -51,6 +57,9 @@ kmeans = KMeans(num)
 # sample_weight has been initialized to use 'Weighted' K-Means Clustering
 kmeans.fit(coord, sample_weight=wt)
 clusters_weighted = kmeans.fit_predict(coord, sample_weight=wt)
+
+# db_index = davies_bouldin_score(coord, clusters_weighted)
+# print(db_index)
 
 plt.scatter(x, y, c=clusters_weighted, cmap='rainbow')
 
