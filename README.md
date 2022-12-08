@@ -3,8 +3,8 @@
 
 ### Step 1:
 In order to concoct the input we gather vehicle densities from traffic video feed at different places. This is done using <b>Computer vision</b>.<br>
-We use the <b>YOLO</b> Detection System (using Deep Neural Network) after training it on [COCO Dataset](https://cocodataset.org/#home). 
-Vehicles are detected from the video feed and classified into Vehicle Types (Cars/ Motorbikes/ Trucks/ Buses). The counts of each vehicle type is then stored in a csv file for further processing.
+We use the <b>YOLO</b> Detection System (which implements a Deep Neural Network) after training it on [COCO Dataset](https://cocodataset.org/#home). 
+Vehicles are detected from the video feed and classified into Vehicle Types (Cars/ Motorbikes/ Trucks/ Buses). The counts of each vehicle type is then stored in a .csv file for further processing.
 
 
 <h3>Vehicle Detection and Count</h3>
